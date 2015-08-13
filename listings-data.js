@@ -37,7 +37,36 @@ module.exports = function(callback) {
 
       console.log('listings generation completed');
       clearInterval(waitMessage);
-      callback(listings);
+
+      waitMessage = setInterval(function() {
+        console.log('Generating Price Index, please wait...')
+      }, 2000);
+
+      var priceIndex = listings.sort(function(a, b) { 
+          if(a.price && b.price) {
+            return a.price - b.price;
+          } else if (a.price) {
+            return a.price;
+          } else if (b.price) {
+            return b.price;
+          } else {
+            return undefined;
+          }
+      });
+
+
+      console.log('priceIndex generation completed');
+      clearInterval(waitMessage);
+
+      callback({
+        listings: listings,
+        priceIndex: priceIndex
+      });
+
+
+
+
+
     }); // end async parallel
   }); // end require counts
 }
