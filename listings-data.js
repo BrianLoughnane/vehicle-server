@@ -4,7 +4,10 @@ var async = require('async');
 
 module.exports = function(callback) {
   require('./listings-count')(function(count) {
-    console.log('listings count fired');
+    var waitMessage = setInterval(function() {
+      console.log('Getting Carlypso Records, please wait...')
+    }, 2000);
+
     console.log('count', count);
     var listings = [];
     var tasks = [];
@@ -33,6 +36,7 @@ module.exports = function(callback) {
       });
 
       console.log('listings generation completed');
+      clearInterval(waitMessage);
       callback(listings);
     }); // end async parallel
   }); // end require counts

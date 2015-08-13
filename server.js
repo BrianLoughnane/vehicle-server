@@ -2,16 +2,22 @@
 var express = require('express');
 var app = express();
 
-// load records from database
-require('./listings-data.js');
+ 
+// // require middleware
+// require('./middleware.js')(app, express);
 
-// require middleware
-require('./middleware.js')(app, express);
+require('./listings-data.js')(function(listings) {
 
-// set port
-var port = process.env.PORT || 3000;
+  app
+    .get('/', function (req, res) {
+      res.send('yay');
+    });
 
-// listen on port
-app.listen(port, function () {
-  console.log("Watchly is listening on port " + port);
+  // set port
+  var port = process.env.PORT || 3000;
+
+  // listen on port
+  app.listen(port, function () {
+    console.log("Watchly is listening on port " + port);
+  });
 });
